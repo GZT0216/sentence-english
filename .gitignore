@@ -1,0 +1,22 @@
+node_modules/
+dist/
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+.env
+backend/prisma/data/
+.jwt-secret
+.DS_Store
+
+# 与本项目无关的本地目录 / 临时产物
+_itasset_audit/
+__pycache__/
+*.pyc
+*.log
+*.tgz
+app.tgz
+
+# 第三方原始表格数据（版权与体积都不适合入库；仓库内只保留整理后的 data/sentences-full.csv）
+*.xlsx
+*.xls

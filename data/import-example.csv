@@ -1,0 +1,11 @@
+id,category,sub_category,english,chinese,difficulty,tags
+1,日常交流,打招呼,Nice to meet you.,很高兴认识你。,1,greeting
+2,工作,日常工作,I'll check it later.,我稍后检查一下。,1,work
+3,餐厅,点餐,"I'd like a coffee, please.",请来一杯咖啡。,1,restaurant
+4,交通,问路,Does this bus go to the airport?,这趟巴士去机场吗？,2,travel
+5,旅行,机场,"My luggage is over the limit, isn't it?",我的行李超重了吧？,2,travel
+6,电话,通话问题,You're breaking up. Can you hear me now?,你信号断断续续的，现在能听到吗？,2,phone
+7,家庭,日常,Are we still on for dinner tonight?,我们今晚的晚餐计划还不变吧？,2,family
+8,社交,邀约,"Sorry, I have to take a rain check.",抱歉，这次我得改天。,2,social
+9,酒店,入住,What time is checkout?,退房时间是几点？,1,hotel
+10,购物,退换货,"I'd like to return this, it doesn't fit.",我想退掉这个，它不合身。,2,shopping

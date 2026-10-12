@@ -1,0 +1,34 @@
+name: sentence-english
+
+services:
+  app:
+    build:
+      context: .
+      args:
+        # 国内网络构建时可覆盖：--build-arg NPM_REGISTRY=https://registry.npmmirror.com
+        NPM_REGISTRY: ${NPM_REGISTRY:-https://registry.npmjs.org/}
+        PRISMA_ENGINES_MIRROR: ${PRISMA_ENGINES_MIRROR:-}
+        # Docker Hub 不通时改用 ECR 官方镜像源：public.ecr.aws/docker/library/node:24-alpine
+        BASE_IMAGE: ${BASE_IMAGE:-node:24-alpine}
+    image: sentence-english:latest
+    ports:
+      - '${PORT:-8787}:8787'
+    volumes:
+      - sentence-data:/app/backend/prisma/data
+    environment:
+      - DATABASE_URL=file:./data/app.db
+      - PORT=8787
+      - TZ=Asia/Shanghai
+      # 首次启动创建/升级 admin 账号用；留空则镜像内的 admin123456 兜底，公网部署务必在 .env 里设置
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-}
+      # 不设置时容器会在数据卷内自动生成并持久化，重建镜像不会让全员掉线
+      - JWT_SECRET=${JWT_SECRET:-}
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: '10m'
+        max-file: '3'
+
+volumes:
+  sentence-data:

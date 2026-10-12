@@ -1,0 +1,133 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int       @id @default(autoincrement())
+  name         String    @unique
+  passwordHash String?   @map("password_hash")
+  isAdmin      Boolean   @default(false) @map("is_admin")
+  lastLoginAt  DateTime? @map("last_login_at")
+  createdAt    DateTime  @default(now()) @map("created_at")
+
+  progress    UserSentenceProgress[]
+  favorites   Favorite[]
+  records     PracticeRecord[]
+  studyTimes  StudyTimeDaily[]
+  position    StudyPosition?
+
+  @@map("users")
+}
+
+// 每个用户一行：上次学习位置（分类/难度/最后练习的句子）
+model StudyPosition {
+  userId         Int      @id @map("user_id")
+  category       String?
+  difficulty     Int?
+  lastSentenceId Int?     @map("last_sentence_id")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("study_positions")
+}
+
+// 每日学习时长（秒），用于学习时长统计
+model StudyTimeDaily {
+  id     Int    @id @default(autoincrement())
+  userId Int    @map("user_id")
+  date   String
+  seconds Int   @default(0)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, date])
+  @@map("study_time_daily")
+}
+
+model Sentence {
+  id           Int      @id @default(autoincrement())
+  english      String
+  chinese      String
+  category     String   @default("其他")
+  subCategory  String?  @map("sub_category")
+  difficulty   Int      @default(1)
+  pronunciation  String?
+  explanation    String?
+  tags         String?
+  audioUrl     String?  @map("audio_url")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  progress  UserSentenceProgress[]
+  favorites Favorite[]
+  records   PracticeRecord[]
+
+  @@unique([english])
+  @@index([category])
+  @@map("sentences")
+}
+
+model Category {
+  id        Int     @id @default(autoincrement())
+  name      String  @unique
+  parentId  Int?    @map("parent_id")
+  sortOrder Int     @default(0) @map("sort_order")
+
+  @@map("categories")
+}
+
+model UserSentenceProgress {
+  id                 Int       @id @default(autoincrement())
+  userId             Int       @map("user_id")
+  sentenceId         Int       @map("sentence_id")
+  practiceCount      Int       @default(0) @map("practice_count")
+  correctCount       Int       @default(0) @map("correct_count")
+  wrongCount         Int       @default(0) @map("wrong_count")
+  consecutiveCorrect Int       @default(0) @map("consecutive_correct")
+  masteryLevel       Int       @default(0) @map("mastery_level")
+  lastPracticeAt     DateTime? @map("last_practice_at")
+  nextReviewAt       DateTime? @map("next_review_at")
+
+  user     User     @relation(fields: [userId], references: [id])
+  sentence Sentence @relation(fields: [sentenceId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, sentenceId])
+  @@index([userId, nextReviewAt])
+  @@map("user_sentence_progress")
+}
+
+model Favorite {
+  id        Int      @id @default(autoincrement())
+  userId    Int      @map("user_id")
+  sentenceId Int     @map("sentence_id")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user     User     @relation(fields: [userId], references: [id])
+  sentence Sentence @relation(fields: [sentenceId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, sentenceId])
+  @@map("favorites")
+}
+
+model PracticeRecord {
+  id           Int      @id @default(autoincrement())
+  userId       Int      @map("user_id")
+  sentenceId   Int      @map("sentence_id")
+  practiceType String   @map("practice_type")
+  userAnswer   String?  @map("user_answer")
+  correct      Boolean
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  user     User     @relation(fields: [userId], references: [id])
+  sentence Sentence @relation(fields: [sentenceId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@index([sentenceId])
+  @@map("practice_records")
+}

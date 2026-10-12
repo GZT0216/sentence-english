@@ -1,0 +1,6 @@
+* text=auto
+*.csv -text
+*.mp3 binary
+*.xlsx binary
+*.xls binary
+*.db binary
