@@ -56,6 +56,9 @@ SentenceFit 用一个本地 SQLite 库解决这三件事：
 **界面**
 
 - 深色/浅色主题、响应式布局；列表行内朗读按钮；打字机械键盘音效（6 种轴体音色可切换/关闭，采样加载失败自动回退 Web Audio 合成音）。
+<img width="2880" height="1506" alt="image" src="https://github.com/user-attachments/assets/1a27188c-4980-4f20-b15b-b5ebed1afca8" />
+
+<img width="2880" height="1506" alt="image" src="https://github.com/user-attachments/assets/ca8c38d8-1515-438e-8440-6cb861ff11ad" />
 
 ## 3. 安装方法
 
