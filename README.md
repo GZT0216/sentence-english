@@ -25,6 +25,10 @@
 - 深色/浅色主题、响应式；浏览器内置语音朗读；本地键盘音效（6 种轴体，可关闭）。
 - 不用 AI 判语义、不依赖第三方语音服务、无埋点，答案判定是确定性字符串规则。
 
+<img width="2880" height="1506" alt="界面截图" src="https://github.com/user-attachments/assets/1a27188c-4980-4f20-b15b-b5ebed1afca8" />
+
+<img width="2880" height="1506" alt="界面截图" src="https://github.com/user-attachments/assets/ca8c38d8-1515-438e-8440-6cb861ff11ad" />
+
 ## 安装
 
 环境要求：Node.js 20 或 24（含 npm）、Git；Docker 只在容器部署时需要。
